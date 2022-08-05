@@ -40,11 +40,11 @@ The instructions hint how this problem can be broken down into sub-problems:
   the string expression into the important bits (_operands_ and _operators_)
   which make up the expression.
 * **Evaluate**: Next those tokens should be organized into some structure that
-  allows solving which honors proper order or operations. This is where it gets
+  allows solving which honors proper order of operations. This is where it gets
   interesting! There are several ways to approach the solution.
 * **Return**: Finally, return the result.
 
-## Evaluation
+## Candidate Evaluation
 
 The problem as described is a much-simplified form of a generic expression
 evaluator. It only supports integers, and only the four basic binary operators.
@@ -70,8 +70,7 @@ suggestions as gospel, but also being open to different directions.
 
 ### Tokenizing
 
-* Regular Expression tokenizer ( [source](./src/tokenize_regex.ts) |
-  [tests](./tests/tokenize_regex.test.ts) )
+* Regular Expression tokenizer ( [source](./src/tokenize_regex.ts) | [tests](./tests/tokenize_regex.test.ts) )
 * Character-wise iteration tokenizer ( [source](.src/tokenize_charwise.ts) | [tests](./tests/tokenize_charwise.test.ts) )
 
 ### Evaluating
@@ -87,6 +86,8 @@ suggestions as gospel, but also being open to different directions.
 ### Tokenizing
 
 #### Regular Expression Tokenizer (Preferred)
+
+[Source](./src/tokenize_regex.ts)
 
 With a single regular expression we can match one of two operator types:
 
@@ -106,6 +107,8 @@ for additional cases.
 
 #### Character-wise Expression Tokenizer
 
+[Source](.src/tokenize_charwise.ts)
+
 This tokenizer iterates over every character in the expression keeping track of
 a current token (with `text` and `kind` properties). When it switches token
 kinds, it pushes the previous token onto a built-up list of tokens. As the loop
@@ -119,6 +122,8 @@ extend.
 ### Evaluating
 
 ### Using the built-in eval()
+
+[Source](./src/eval.ts)
 
 This approach is a "gimme" but shouldn't be ignored. An assumption is, "The
 string given is always a valid expression" - which means we can safely use the
