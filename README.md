@@ -1,12 +1,18 @@
 # ts-expression-evaluator
 
-A survey of solutions to the "String Expression Evaluator" problem sometimes used in technical coding interviews.
+A survey of solutions to the "String Expression Evaluator" problem sometimes
+used in technical coding interviews.
 
 ## Overview
 
-It's been many (15?) years since I've done technical coding interviews as a candidate. After attempting this problem, and delivering a pretty lackluster performance, it turns out that I'm rusty! A nice way to brush up those skills is to use this problem as a study tool and identify better solutions than what I stumbled through in my recent attempt.
+It's been many (15?) years since I've done technical coding interviews as a
+candidate. After attempting this problem, and delivering a pretty lackluster
+performance, it turns out that I'm rusty! A nice way to brush up those skills is
+to use this problem as a study tool and identify better solutions than what I
+stumbled through in my recent attempt.
 
-I'm new to both Typescript and this problem, so comments and improvements are welcome and encouraged!
+I'm new to both Typescript and this problem, so comments and improvements are
+welcome and encouraged!
 
 ## The Problem
 
@@ -30,37 +36,97 @@ You should write a piece of code that will:
 
 The instructions hint how this problem can be broken down into sub-problems:
 
-* **Parse**: First, the expression must be parsed. A solution should _tokenize_ the string expression into the important bits (_operands_ and _operators_) which make up the expression.
-* **Evaluate**: Next those tokens should be organized into some structure that allows solving which honors proper order or operations. This is where it gets interesting! There are several ways to approach the solution.
+* **Parse**: First, the expression must be parsed. A solution should _tokenize_
+* the string expression into the important bits (_operands_ and _operators_)
+* which make up the expression.
+* **Evaluate**: Next those tokens should be organized into some structure that
+* allows solving which honors proper order or operations. This is where it gets
+* interesting! There are several ways to approach the solution.
 * **Return**: Finally, return the result.
 
 ## Evaluation
 
-The problem as described is a much-simplified form of a generic expression evaluator. It only supports integers, and only the four basic binary operators. This will bring up _pragmatism_ as an interview dimension. There are solutions to this problem that are shorter and easier to read, but would be more difficult to extend to support more complicated expressions. Does the candidate consider this tradeoff? Is there a solution that is _both_ concise and readable, but also extensible for more complicated requirements?
+The problem as described is a much-simplified form of a generic expression
+evaluator. It only supports integers, and only the four basic binary operators.
+This will bring up _pragmatism_ as an interview dimension. There are solutions
+to this problem that are shorter and easier to read, but would be more difficult
+to extend to support more complicated expressions. Does the candidate consider
+this tradeoff? Is there a solution that is _both_ concise and readable, but also
+extensible for more complicated requirements?
 
-This problem is also complex enough to break into sub-parts. A strong candidate would ideally separate tokenizing the expression from evaluating the expression. When does the candidate begin to mentally break these apart? It can show how they compartmentalize a problem into its discrete parts.
+This problem is also complex enough to break into sub-parts. A strong candidate
+would ideally separate tokenizing the expression from evaluating the expression.
+When does the candidate begin to mentally break these apart? It can show how
+they compartmentalize a problem into its discrete parts.
 
-How does the candidate collaborate? Do they make use of the interviewer and solicit input or feedback? In the real-world, developers get stuck or have tunnel vision. Good signals of a strong _collaborative_ candidate are good verbal descriptions of the thought process. Inviting suggestions or reviews along the way. Evaluating the input and not necessarily simply taking all suggestions as gospel, but also being open to different types of solutions.
+How does the candidate collaborate? Do they make use of the interviewer and
+solicit input or feedback? In the real-world, developers get stuck or have
+tunnel vision. Good signals of a strong _collaborative_ candidate are good
+verbal descriptions of the thought process. Inviting suggestions or reviews
+along the way. Evaluating the input and not necessarily simply taking all
+suggestions as gospel, but also being open to different types of solutions.
 
 ## Solutions
 
 ### Tokenizing
 
-* Regular Expression splitting
+* Regular Expression tokenizer ( [source](./src/tokenize_regex.ts) |
+  [tests](./tests/tokenize_regex.test.ts))
 * Character-wise iteration
 
 ### Evaluating
 
-* Using the built-in `eval()` ( [source](./src/eval.ts) | [tests](./tests/eval.test.ts) )
+* Using the built-in `eval()` ( [source](./src/eval.ts) |
+  [tests](./tests/eval.test.ts) )
 * Creating a parse or expression *tree*
 * Converting to RPN notation, using stacks
 * Simple, brute-force
 
+#### Using eval()
+
+This is a "gimme" but still counts! Given the assumption: "The string given is
+always a valid expression" we can safely just use the built-in `eval()`
+function, and let numerous brilliant language developers do our work for us! If
+this were the real-world, this would probably be the best answer.
+
+But it doesn't make for a very long or informative technical interview! :)
+
+One interesting note: When evaluating the test expression given in the
+instructions, "3+10*6-23/4" - `eval()` doesn't necessarily give the expected
+answer! The instructions don't make it clear what to do with division that
+results in a non-integer result. Many of the referenced articles add the
+assumption that we should use integer division, _ignoring any remainder_.
+
+If we follow that guide, the instruction example "3+10*6-23/4" evaluates as
+follows:
+
+* 3+10*6-23/4
+* 3+60-5.75 (which we truncate to 5!)
+* 3+60-5 = 58
+
+The built-in `eval()` function doesn't do integer division along the way, so it
+evaluates to:
+
+* 3+10*6-23/4
+* 3+60-5.75=57.25
+
+Even if we take a Math.floor() of the final result to simulate integer division,
+we end up with 57. A different integer answer!
+
+When running the unit tests for this solution, this test fails!
+
 ### Using the built-in eval()
 
-This is a "gimme" but shouldn't be ignored. An assumption is, "The string given is always a valid expression" - which means we can safely use the language's built-in `eval()` function. If this were the real world, this would likely be the best solution. Even without that assumption, it might be easier to _validate_ the input for safety versus write our own evaluator.
+This is a "gimme" but shouldn't be ignored. An assumption is, "The string given
+is always a valid expression" - which means we can safely use the language's
+built-in `eval()` function. If this were the real world, this would likely be
+the best solution. Even without that assumption, it might be easier to
+_validate_ the input for safety versus write our own evaluator.
 
-One interesting artifact is that the built-in `eval()` function is more powerful than our simplifed rules need. Our problem is limited to only integers and the four basic binary operators. So... the example problem given: `3+10*6-23/4` can actually return different answers, depending on the rules.
+One interesting artifact is that the built-in `eval()` function is more powerful
+than our simplifed rules need. Our problem is limited to only integers and the
+four basic binary operators. So... the example problem given: `3+10*6-23/4` can
+actually return different answers, depending on the rules.
 
 Let's look at how this expression would be evaluated by `eval()`:
 
@@ -68,9 +134,12 @@ Let's look at how this expression would be evaluated by `eval()`:
 * `3+60-5.75` - _AH! Note the non-integer result from the division_
 * `57.25` - **a floating-point-enabled evaluator gives this answer**
 
-How should we handle non-integer results? Is that processing done during individual operation evaluation or at the end?
+How should we handle non-integer results? Is that processing done during
+individual operation evaluation or at the end?
 
-At least one of the referenced articles describing this solution adds a rule for _integer division: remainders are ignored_. If this rule is in place, it changes the answer:
+At least one of the referenced articles describing this solution adds a rule for
+_integer division: remainders are ignored_. If this rule is in place, it changes
+the answer:
 
 * `3+10*6-23/4` - Again, multiplication/division first:
 * `3+60-5` - _ignore remainder in the division (5.75 becomes 5)_
