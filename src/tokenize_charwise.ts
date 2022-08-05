@@ -12,6 +12,7 @@ export function tokenize(expression: string):Array<Token> {
     for (let i=0; i<expression.length; i++) {
         const ch = expression[i];
         if (/[0-9]/.test(ch)) {
+            // We have an operand (or another character on the current operand)
             if (currentKind != TokenKindOperand) { // switching tokens
                 if (currentText) {
                     tokens.push({ text: currentText, kind: currentKind });
@@ -21,6 +22,7 @@ export function tokenize(expression: string):Array<Token> {
             currentKind = TokenKindOperand;
             currentText += ch;
         } else if (/[\+\-*/]/.test(ch)) {
+            // We have an operator
             if (currentKind != TokenKindOperator) { // switching tokens
                 if (currentText) {
                     tokens.push({ text: currentText, kind: currentKind });

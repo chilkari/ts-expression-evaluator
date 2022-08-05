@@ -71,8 +71,8 @@ suggestions as gospel, but also being open to different types of solutions.
 ### Tokenizing
 
 * Regular Expression tokenizer ( [source](./src/tokenize_regex.ts) |
-  [tests](./tests/tokenize_regex.test.ts))
-* Character-wise iteration
+  [tests](./tests/tokenize_regex.test.ts) )
+* Character-wise iteration tokenizer ( [source](.src/tokenize_charwise.ts) | [tests](./tests/tokenize_charwise.test.ts) )
 
 ### Evaluating
 
@@ -82,38 +82,28 @@ suggestions as gospel, but also being open to different types of solutions.
 * Converting to RPN notation, using stacks
 * Simple, brute-force
 
-#### Using eval()
+## Discussion of Different Implementations
 
-This is a "gimme" but still counts! Given the assumption: "The string given is
-always a valid expression" we can safely just use the built-in `eval()`
-function, and let numerous brilliant language developers do our work for us! If
-this were the real-world, this would probably be the best answer.
+### Tokenizing
 
-But it doesn't make for a very long or informative technical interview! :)
+#### Regular Expression Tokenizer (My Preference)
 
-One interesting note: When evaluating the test expression given in the
-instructions, "3+10*6-23/4" - `eval()` doesn't necessarily give the expected
-answer! The instructions don't make it clear what to do with division that
-results in a non-integer result. Many of the referenced articles add the
-assumption that we should use integer division, _ignoring any remainder_.
+With a single regular expression we can match one of two operator types:
 
-If we follow that guide, the instruction example "3+10*6-23/4" evaluates as
-follows:
+* `[0-9]+` - any number of digits (an operand)
+* `[\+\-*/]{1}` - one of the four one-character operators
 
-* 3+10*6-23/4
-* 3+60-5.75 (which we truncate to 5!)
-* 3+60-5 = 58
+Using the global regex flag, we'll get a match for each individual token in the entire string. At the time we detect an individual token, we can also classify that token as either operand or operator and set a `kind` property on our custom `Token` interface so the future consumers can easily determine which it is.
 
-The built-in `eval()` function doesn't do integer division along the way, so it
-evaluates to:
+The regular expressions here nicely grab entire tokens as individual matches. If the regex itself can be understood the remaining code is shorter and easier to understand than the character-wise tokenizer, and would be much easier to extend for additional cases.
 
-* 3+10*6-23/4
-* 3+60-5.75=57.25
+#### Character-wise Expression Tokenizer
 
-Even if we take a Math.floor() of the final result to simulate integer division,
-we end up with 57. A different integer answer!
+This tokenizer iterates over every character in the expression keeping track of a current token (with `text` and `kind` properties). When it switches token kinds, it pushes the previous token onto a built-up list of tokens. As the loop exits, it pushes the final token to the list and returns.
 
-When running the unit tests for this solution, this test fails!
+While this tokenizer works, it's a bit longer and slightly more fragile than the pure regular expression tokenizer. Should we need to extend to cover other cases, that fragility could make it more difficult to extend.
+
+### Evaluating
 
 ### Using the built-in eval()
 
