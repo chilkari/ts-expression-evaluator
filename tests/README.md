@@ -19,9 +19,9 @@ You should write a piece of code that will:
 
 ## Overview
 
-I've seen this exercise used in technical coding interviews, and after my own recent and somewhat lackluster performance (having not seen the problem before), I wanted to do some studying and find better solutions than what I unsuccessfully stumbled into on my own.
+I've seen this exercise used in technical coding interviews, and after my own recent and somewhat lackluster performance (having not seen the problem before), I wanted to do some studying and find better solutions than what I stumbled into on my own.
 
-This repo contains a set of tests and several solutions to the problem along with some discussion of the overall problem and the different solutions.
+This repo contains a set of tests and several solutions along with some discussion of the overall problem and the different solutions.
 
 I'm new to Typescript and this problem, so comments and improvements are welcome and encouraged to help me learn!
 
@@ -30,7 +30,7 @@ I'm new to Typescript and this problem, so comments and improvements are welcome
 In a nutshell, (ignoring the `eval()` solution), the high level solution is described explicitly in the instructions:
 
 * We need to parse the input. All non-trivial solutions must _tokenize_ the solution into _operators_ and _operands_. Other terms for this are _scanner_, _lexical parser_ or just _lexer_. In this step, we have to turn the full string expression into the important operable parts.
-* We need to organize the tokens into a structure that allows for correct evaluation, _which honors the order of operations_. This is where things get interesting, as there are a number of approaches to this!
+* We need to organize the tokens into a structure that allows for correct evaluation _which honors the order of operations_. This is where things get interesting, as there are a number of approaches to this!
 * We need to return the result.
 
 ## Solutions
