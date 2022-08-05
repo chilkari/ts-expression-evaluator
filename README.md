@@ -37,11 +37,11 @@ You should write a piece of code that will:
 The instructions hint how this problem can be broken down into sub-problems:
 
 * **Parse**: First, the expression must be parsed. A solution should _tokenize_
-* the string expression into the important bits (_operands_ and _operators_)
-* which make up the expression.
+  the string expression into the important bits (_operands_ and _operators_)
+  which make up the expression.
 * **Evaluate**: Next those tokens should be organized into some structure that
-* allows solving which honors proper order or operations. This is where it gets
-* interesting! There are several ways to approach the solution.
+  allows solving which honors proper order or operations. This is where it gets
+  interesting! There are several ways to approach the solution.
 * **Return**: Finally, return the result.
 
 ## Evaluation
@@ -61,10 +61,10 @@ they compartmentalize a problem into its discrete parts.
 
 How does the candidate collaborate? Do they make use of the interviewer and
 solicit input or feedback? In the real-world, developers get stuck or have
-tunnel vision. Good signals of a strong _collaborative_ candidate are good
-verbal descriptions of the thought process. Inviting suggestions or reviews
+tunnel vision. A strong _collaborative_ candidate will offer good verbal
+descriptions of the thought process. They will invite suggestions or feedback
 along the way. Evaluating the input and not necessarily simply taking all
-suggestions as gospel, but also being open to different types of solutions.
+suggestions as gospel, but also being open to different directions.
 
 ## Solutions
 
@@ -86,31 +86,44 @@ suggestions as gospel, but also being open to different types of solutions.
 
 ### Tokenizing
 
-#### Regular Expression Tokenizer (My Preference)
+#### Regular Expression Tokenizer (Preferred)
 
 With a single regular expression we can match one of two operator types:
 
 * `[0-9]+` - any number of digits (an operand)
 * `[\+\-*/]{1}` - one of the four one-character operators
 
-Using the global regex flag, we'll get a match for each individual token in the entire string. At the time we detect an individual token, we can also classify that token as either operand or operator and set a `kind` property on our custom `Token` interface so the future consumers can easily determine which it is.
+Using the global regex flag, we'll get a match for each individual token in the
+entire string. At the time we detect an individual token, we can also classify
+that token as either operand or operator and set a `kind` property on our custom
+`Token` interface so that future consumers can easily determine which it is.
 
-The regular expressions here nicely grab entire tokens as individual matches. If the regex itself can be understood the remaining code is shorter and easier to understand than the character-wise tokenizer, and would be much easier to extend for additional cases.
+The regular expressions here nicely grab entire tokens as individual matches.
+Developers have varying familiarity with regular expressions. If the regex
+itself can be easily understood then the remaining code is shorter and easier to
+understand than the character-wise tokenizer, and would be much easier to extend
+for additional cases.
 
 #### Character-wise Expression Tokenizer
 
-This tokenizer iterates over every character in the expression keeping track of a current token (with `text` and `kind` properties). When it switches token kinds, it pushes the previous token onto a built-up list of tokens. As the loop exits, it pushes the final token to the list and returns.
+This tokenizer iterates over every character in the expression keeping track of
+a current token (with `text` and `kind` properties). When it switches token
+kinds, it pushes the previous token onto a built-up list of tokens. As the loop
+exits, it pushes the final token to the list and returns.
 
-While this tokenizer works, it's a bit longer and slightly more fragile than the pure regular expression tokenizer. Should we need to extend to cover other cases, that fragility could make it more difficult to extend.
+While this tokenizer works, it's slightly longer with some duplication. It's
+also more fragile than the pure regular expression tokenizer. Should we need to
+extend to cover other cases, that fragility could make it more difficult to
+extend.
 
 ### Evaluating
 
 ### Using the built-in eval()
 
-This is a "gimme" but shouldn't be ignored. An assumption is, "The string given
-is always a valid expression" - which means we can safely use the language's
-built-in `eval()` function. If this were the real world, this would likely be
-the best solution. Even without that assumption, it might be easier to
+This approach is a "gimme" but shouldn't be ignored. An assumption is, "The
+string given is always a valid expression" - which means we can safely use the
+language's built-in `eval()` function. If this were the real world, this would
+likely be the best solution. Even without that assumption, it might be easier to
 _validate_ the input for safety versus write our own evaluator.
 
 One interesting artifact is that the built-in `eval()` function is more powerful
