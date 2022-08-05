@@ -25,6 +25,17 @@ export const basic_tests: Array<IExpressionTest> = [
         skipFor: []
     },
     {
+        description: "two operands and whitespace",
+        expression: "1 + 2 ",
+        answer: 3,
+        tokens: [
+            { text: '1', kind: 'operand' },
+            { text: '+', kind: 'operator' },
+            { text: '2', kind: 'operand' },
+        ],
+        skipFor: []
+    },
+    {
         description: "simple addition, three operands, multiple numeric digits",
         expression: "23+2+473",
         answer: 498,
