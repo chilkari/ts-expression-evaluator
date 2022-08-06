@@ -77,9 +77,9 @@ suggestions as gospel, but also being open to different directions.
 
 * Using the built-in `eval()` ( [source](./src/eval.ts) |
   [tests](./tests/eval.test.ts) )
-* Creating a parse or expression *tree*
+* Tokens in infix notation order. Examine left-to-right, using stacks to decide when to evaulate. ( [source](./src/infix-stacks.ts) | [tests](./tests/eval.test.ts) )
 * Converting to RPN notation, using stacks
-* Simple, brute-force
+* Split original expression in operator precedence order, evaluating as we go
 
 ## Discussion of Different Implementations
 
@@ -152,6 +152,32 @@ the answer:
 * `3+10*6-23/4` - Again, multiplication/division first:
 * `3+60-5` - _ignore remainder in the division (5.75 becomes 5)_
 * `58` - **58 != 57 :)**
+
+### Using a pair of stacks to hold operands and operators until appropriate evaluation time
+
+When evaluating a simple expression like "2+3*7", but seeing the individual
+tokens from left to right, we need some sort of "memory" to wait to evaluate the
+"+" until after the "*" has been evaluated.
+
+In this solution, we create a pair of stacks: One for value and one for
+operators. Anytime we encounter an operator, if its precedence is greater than
+or equal to the previous operator, the previous operator can be evaluated. So we
+can pop two values and the previous operator and evaluate them. The resulting
+single number is then pushed back onto the value stack. We also still have the
+_current_ operator handy which goes onto the operators stack.
+
+Once we've seen all tokens, we have to take one final step to go through
+anything left in the stacks.
+
+Let's walk the simple example above step by step:
+
+* Token = "2", vStack=[], opStack=[]. **Push "2" onto value stack**
+* Token = "+", vStack=[2], opStack=[]. **No 'previous' op. Push "+" onto opStack**
+* Token = "3", vStack=[2], opStack=[+]. **Push "3" onto value stack**
+* Token = "*", vStack=[2,3], opStack=[+]. **Prev op = "+". * >= + in precedence. Pop 2 vals (2 and 3) and eval prev op "+". Push result "5" to vStack.**
+* Token = "7", vStack=[5], opStack=[*]. **Push "7" onto value stack**
+* Done with tokens. Final processing of anything remaining. vStack=[5,7], opStack=[*[. **Pop two operands (5,7) and op (*). Eval to "35" push result to vStack.**
+* No operators left. Pop single value "35" from vStack which is the final answer and return.
 
 ### References
 

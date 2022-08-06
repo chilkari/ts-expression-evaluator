@@ -1,6 +1,25 @@
 import { Token, TokenKindOperand } from './token'
 import { tokenize } from './tokenize_regex';
 
+/*
+Given an expression in infix notation (1+3*5), hold values and operators in a
+pair of stacks so that we can evaluate individual expressions at the appropriate
+time. Once evaluated, a given answer is placed back on the stack allowing
+continued evaluation.
+
+Simplified logic:
+
+opStack = []
+valueStack = []
+
+process tokens in order:
+  if token is number, push on value stack
+  if token is operator, see if the -previous- operator should be evaluated.
+    if so, pop two operands and previous operator. Evaluate, and push result back onto values stack
+    push operator on operator stack.
+After all tokens processed, evaluate anything remaining in the stacks.
+We should be left with a single value in the value stack.
+*/
 // Technically this is a "binaryOperator" as it requires two operands
 interface operator {
     precedence: number; // Higher precedence evaluates first
@@ -24,7 +43,7 @@ function processTokens(tokens: Token[]): number {
             vStack.push(parseInt(t.text, 10))
         } else if (isOperator(t)) {
             if (opStack.length && operatorCausesEvaluation(opFromString(t.text), opStack[opStack.length-1])) {
-                executeOperator(vStack, opStack); // Executes _previous_ operator
+                executeOperator(vStack, opStack); // Executes _previous_ operator (not current)
             }
             opStack.push(opFromString(t.text))
         }
@@ -74,12 +93,10 @@ function operatorCausesEvaluation(currentOp: operator, previousOperator: operato
 }
 
 function isValue(token: Token): boolean {
-    // TODO - make these regex's shared constants
     return /[0-9]+/.test(token.text);
 }
 
 function isOperator(token: Token): boolean {
-    // TODO - make these regex's shared constants
     return /[\+\-*/]{1}/.test(token.text);
 }
 

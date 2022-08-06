@@ -1,9 +1,9 @@
-import { evaluate } from '../src/tree'
+import { evaluate } from '../src/infix-stacks'
 import { basic_tests } from './test-expressions';
 
-describe('tree evaluator', () => {
+describe('infix stacks evaluator', () => {
   basic_tests.forEach(t => {
-    if (t.skipFor.includes('tree')) {
+    if (t.skipFor.includes('infix-stacks')) {
       test.skip(t.description, () => {})
       return true;
     }
