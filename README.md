@@ -44,28 +44,6 @@ The instructions hint how this problem can be broken down into sub-problems:
   interesting! There are several ways to approach the solution.
 * **Return**: Finally, return the result.
 
-## Candidate Evaluation
-
-The problem as described is a much-simplified form of a generic expression
-evaluator. It only supports integers, and only the four basic binary operators.
-This will bring up _pragmatism_ as an interview dimension. There are solutions
-to this problem that are shorter and easier to read, but would be more difficult
-to extend to support more complicated expressions. Does the candidate consider
-this tradeoff? Is there a solution that is _both_ concise and readable, but also
-extensible for more complicated requirements?
-
-This problem is also complex enough to break into sub-parts. A strong candidate
-would ideally separate tokenizing the expression from evaluating the expression.
-When does the candidate begin to mentally break these apart? It can show how
-they compartmentalize a problem into its discrete parts.
-
-How does the candidate collaborate? Do they make use of the interviewer and
-solicit input or feedback? In the real-world, developers get stuck or have
-tunnel vision. A strong _collaborative_ candidate will offer good verbal
-descriptions of the thought process. They will invite suggestions or feedback
-along the way. Evaluating the input and not necessarily simply taking all
-suggestions as gospel, but also being open to different directions.
-
 ## Solutions
 
 ### Tokenizing
@@ -85,7 +63,7 @@ suggestions as gospel, but also being open to different directions.
 
 ### Tokenizing
 
-#### Regular Expression Tokenizer (Preferred)
+#### Regular Expression Tokenizer
 
 [Source](./src/tokenize_regex.ts)
 
@@ -184,6 +162,28 @@ Let's walk the simple example above step by step:
 * Done with tokens. Final processing of anything remaining. vStack=[`5,7`], opStack=[`*`].
   * **Pop two operands (5,7) and op (*). Eval to "35" push result to vStack.**
 * No operators left. Pop single value "35" from vStack which is the final answer and return.
+
+## Candidate Evaluation
+
+The problem as described is a much-simplified form of a generic expression
+evaluator. It only supports integers, and only the four basic binary operators.
+This will bring up _pragmatism_ as an interview dimension. There are solutions
+to this problem that are shorter and easier to read, but would be more difficult
+to extend to support more complicated expressions. Does the candidate consider
+this tradeoff? Is there a solution that is _both_ concise and readable, but also
+extensible for more complicated requirements?
+
+This problem is also complex enough to break into sub-parts. A strong candidate
+would ideally separate tokenizing the expression from evaluating the expression.
+When does the candidate begin to mentally break these apart? It can show how
+they compartmentalize a problem into its discrete parts.
+
+How does the candidate collaborate? Do they make use of the interviewer and
+solicit input or feedback? In the real-world, developers get stuck or have
+tunnel vision. A strong _collaborative_ candidate will offer good verbal
+descriptions of the thought process. They will invite suggestions or feedback
+along the way. Evaluating the input and not necessarily simply taking all
+suggestions as gospel, but also being open to different directions.
 
 ### References
 
