@@ -106,6 +106,27 @@ export const basic_tests: Array<IExpressionTest> = [
         skipFor: []
     },
     {
+        description: "1+2*5+2*3+4*6). multiple sections of interleaved precedence",
+        expression: "1+2*5+2*3+4*6",
+        answer: 41,
+        tokens: [
+            { text: '1', kind: 'operand' },
+            { text: '+', kind: 'operator' },
+            { text: '2', kind: 'operand' },
+            { text: '*', kind: 'operator' },
+            { text: '5', kind: 'operand' },
+            { text: '+', kind: 'operator' },
+            { text: '2', kind: 'operand' },
+            { text: '*', kind: 'operator' },
+            { text: '3', kind: 'operand' },
+            { text: '+', kind: 'operator' },
+            { text: '4', kind: 'operand' },
+            { text: '*', kind: 'operator' },
+            { text: '6', kind: 'operand' },
+        ],
+        skipFor: []
+    },
+    {
         description: "100-12/3. divide before subtract",
         expression: "100-12/3",
         answer: 96, // without order of operations, incorrect answer would be 29 (left-to-right)

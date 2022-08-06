@@ -155,13 +155,13 @@ the answer:
 
 ### Using a pair of stacks to hold operands and operators until appropriate evaluation time
 
-When evaluating a simple expression like "2+3*7", but seeing the individual
+When evaluating a simple expression like `2+3*7`, seeing the individual
 tokens from left to right, we need some sort of "memory" to wait to evaluate the
 "+" until after the "*" has been evaluated.
 
-In this solution, we create a pair of stacks: One for value and one for
+In this solution, we create a pair of stacks: One for values and one for
 operators. Anytime we encounter an operator, if its precedence is greater than
-or equal to the previous operator, the previous operator can be evaluated. So we
+or equal to the previous operator, the _previous_ operator can be evaluated. So we
 can pop two values and the previous operator and evaluate them. The resulting
 single number is then pushed back onto the value stack. We also still have the
 _current_ operator handy which goes onto the operators stack.
@@ -171,12 +171,18 @@ anything left in the stacks.
 
 Let's walk the simple example above step by step:
 
-* Token = "2", vStack=[], opStack=[]. **Push "2" onto value stack**
-* Token = "+", vStack=[2], opStack=[]. **No 'previous' op. Push "+" onto opStack**
-* Token = "3", vStack=[2], opStack=[+]. **Push "3" onto value stack**
-* Token = "*", vStack=[2,3], opStack=[+]. **Prev op = "+". * >= + in precedence. Pop 2 vals (2 and 3) and eval prev op "+". Push result "5" to vStack.**
-* Token = "7", vStack=[5], opStack=[*]. **Push "7" onto value stack**
-* Done with tokens. Final processing of anything remaining. vStack=[5,7], opStack=[*[. **Pop two operands (5,7) and op (*). Eval to "35" push result to vStack.**
+* Token = "2", vStack=[], opStack=[].
+  * **Push "2" onto value stack**
+* Token = "+", vStack=[`2`], opStack=[].
+  * **No 'previous' op. Push "+" onto opStack**
+* Token = "3", vStack=[`2`], opStack=[+].
+  * **Push "3" onto value stack**
+* Token = "*", vStack=[`2,3`], opStack=[`+`].
+  * **Prev op = "+". * >= + in precedence. Pop 2 vals (2 and 3) and eval prev op "+". Push result "5" to vStack.**
+* Token = "7", vStack=[`5`], opStack=[`*`].
+  * **Push "7" onto value stack**
+* Done with tokens. Final processing of anything remaining. vStack=[`5,7`], opStack=[`*`].
+  * **Pop two operands (5,7) and op (*). Eval to "35" push result to vStack.**
 * No operators left. Pop single value "35" from vStack which is the final answer and return.
 
 ### References
