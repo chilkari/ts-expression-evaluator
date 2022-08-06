@@ -57,7 +57,7 @@ The instructions hint how this problem can be broken down into sub-problems:
   [tests](./tests/eval.test.ts) )
 * Tokens in infix notation order. Examine left-to-right, using stacks to decide when to evaulate. ( [source](./src/infix-stacks.ts) | [tests](./tests/eval.test.ts) )
 * Converting to RPN notation, using stacks
-* Split original expression in operator precedence order, evaluating as we go
+* Brute-force evaluation of sub expressions, using a list of operators in precedence order. ( [source](./src/eval-by-precedence.ts) | [tests](./tests/eval-by-precedence.test.ts))
 
 ## Discussion of Different Implementations
 
@@ -162,6 +162,22 @@ Let's walk the simple example above step by step:
 * Done with tokens. Final processing of anything remaining. vStack=[`5,7`], opStack=[`*`].
   * **Pop two operands (5,7) and op (*). Eval to "35" push result to vStack.**
 * No operators left. Pop single value "35" from vStack which is the final answer and return.
+
+### Brute Force Multiple Passes over expression, evaluating in precedence order
+
+In this approach, we build a list of operators in precedence order, `\, *, -, +`. Then we repeatedly examine the expression for sub-expressions containing the current operator. We evaluate that sub-expression, substituting the answer for the original part, simplifying the overall expression down to the point where it only contains a single number. Using the instructions example:
+
+* `3+10*6-23/4` - First search for "number / number" sub-expressions (division) and evaluate each. Specifically, replace "23/4" with 5 (integer division)
+* `3+10*6-5` - Search resulting expression for multiplication sub-expressions. In our case, replace "10*6" with "60"
+* `3+60-5` - Search resulting expression for subtraction sub-expressions. In this case, replace "60-5" with "55"
+* `3+55` - Search resulting expression for addition sub-expressions. In this case, replace "3+55" with "58"
+* `58` - nothing left to do. Return this result.
+
+**Some gotchas**
+* We need to continuously loop each operator until there is nothing left. We can't just use the initial set of matches and must _re-match_ each modified expression for the current operator until none remain.
+* If we want to support whitespace between things, we need to include that as part of our search regular expression.
+* As this makes heavy use of dynamic regular expressions, it's all a bit unwieldy because of escaping.
+
 
 ## Candidate Evaluation
 
