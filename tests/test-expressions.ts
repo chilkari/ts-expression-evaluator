@@ -14,7 +14,7 @@ interface IExpressionTest {
 // [ +, -, *, / ]
 export const basic_tests: Array<IExpressionTest> = [
     {
-        description: "simple addition, two operands",
+        description: "1+2. simple addition, two operands",
         expression: "1+2",
         answer: 3,
         tokens: [
@@ -25,7 +25,7 @@ export const basic_tests: Array<IExpressionTest> = [
         skipFor: []
     },
     {
-        description: "two operands and whitespace",
+        description: "1 + 2 . two operands and whitespace",
         expression: "1 + 2 ",
         answer: 3,
         tokens: [
@@ -36,7 +36,7 @@ export const basic_tests: Array<IExpressionTest> = [
         skipFor: []
     },
     {
-        description: "simple addition, three operands, multiple numeric digits",
+        description: "23+2+473. simple addition, three operands, multiple numeric digits",
         expression: "23+2+473",
         answer: 498,
         tokens: [
@@ -49,7 +49,7 @@ export const basic_tests: Array<IExpressionTest> = [
         skipFor: []
     },
     {
-        description: "simple subtraction",
+        description: "12-7. simple subtraction",
         expression: "12-7",
         answer: 5,
         tokens: [
@@ -60,7 +60,7 @@ export const basic_tests: Array<IExpressionTest> = [
         skipFor: []
     },
     {
-        description: "simple multiplication",
+        description: "3*2. simple multiplication",
         expression: "3*2",
         answer: 6,
         tokens: [
@@ -71,7 +71,7 @@ export const basic_tests: Array<IExpressionTest> = [
         skipFor: []
     },
     {
-        description: "simple division",
+        description: "12/6. simple division",
         expression: "12/6",
         answer: 2,
         tokens: [
@@ -82,7 +82,7 @@ export const basic_tests: Array<IExpressionTest> = [
         skipFor: []
     },
     {
-        description: "simple integer division",
+        description: "12/5. simple integer division",
         expression: "12/5",
         answer: 2,
         tokens: [
@@ -93,7 +93,7 @@ export const basic_tests: Array<IExpressionTest> = [
         skipFor: []
     },
     {
-        description: "mult before add",
+        description: "3+10*6. mult before add",
         expression: "3+10*6",
         answer: 63, // without order of operations, incorrect answer would be 78 (left-to-right)
         tokens: [
@@ -106,7 +106,7 @@ export const basic_tests: Array<IExpressionTest> = [
         skipFor: []
     },
     {
-        description: "divide before subtract",
+        description: "100-12/3. divide before subtract",
         expression: "100-12/3",
         answer: 96, // without order of operations, incorrect answer would be 29 (left-to-right)
         tokens: [
@@ -120,7 +120,7 @@ export const basic_tests: Array<IExpressionTest> = [
         skipFor: []
     },
     {
-        description: "instructions example",
+        description: "3+10*6-23/4. instructions example",
         expression: "3+10*6-23/4",
         answer: 58, // Assumes integer division, remainders ignored! (fails with eval())
         tokens: [

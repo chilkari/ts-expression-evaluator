@@ -160,4 +160,4 @@ the answer:
 * "[Writing a Simple Expression Evaluator](https://www.strchr.com/expression_evaluator)", Peter Kankowski
 * "[Create Your Own Expression Parser](https://levelup.gitconnected.com/create-your-own-expression-parser-d1f622077796)", Don Cross
 * "[7.9: Example: Expression Evaluator](https://www.oreilly.com/library/view/the-go-programming/9780134190570/ebook_split_068.html)", _The Go Programming Language_, Alan A. A. Donovan, Brian W. Kernighan
-
+* [How to Write a Math Expression Parser (in Javascript)](https://medium.com/@stoopidguy1992/how-to-write-a-math-expression-parser-in-javascript-b5147bc9466b), Is2PidGuy
