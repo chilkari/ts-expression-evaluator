@@ -44,7 +44,7 @@ The instructions hint how this problem can be broken down into sub-problems:
   interesting! There are several ways to approach the solution.
 * **Return**: Finally, return the result.
 
-## Solutions
+## Solutions Overview
 
 ### Tokenizing
 
@@ -56,7 +56,7 @@ The instructions hint how this problem can be broken down into sub-problems:
 * Using the built-in `eval()` ( [source](./src/eval.ts) |
   [tests](./tests/eval.test.ts) )
 * Tokens in infix notation order. Examine left-to-right, using stacks to decide when to evaulate. ( [source](./src/infix-stacks.ts) | [tests](./tests/eval.test.ts) )
-* Converting to RPN notation, using stacks
+* Converting to RPN notation, using stacks (**TO DO**)
 * Brute-force evaluation of sub expressions, using a list of operators in precedence order. ( [source](./src/eval-by-precedence.ts) | [tests](./tests/eval-by-precedence.test.ts))
 
 ## Discussion of Different Implementations
@@ -133,6 +133,8 @@ the answer:
 
 ### Using a pair of stacks to hold operands and operators until appropriate evaluation time
 
+[Source](./src/infix-stacks.ts)
+
 When evaluating a simple expression like `2+3*7`, seeing the individual
 tokens from left to right, we need some sort of "memory" to wait to evaluate the
 "+" until after the "*" has been evaluated.
@@ -164,6 +166,8 @@ Let's walk the simple example above step by step:
 * No operators left. Pop single value "35" from vStack which is the final answer and return.
 
 ### Brute Force Multiple Passes over expression, evaluating in precedence order
+
+[Source](./src/eval-by-precedence.ts)
 
 In this approach, we build a list of operators in precedence order, `\, *, -, +`. Then we repeatedly examine the expression for sub-expressions containing the current operator. We evaluate that sub-expression, substituting the answer for the original part, simplifying the overall expression down to the point where it only contains a single number. Using the instructions example:
 
