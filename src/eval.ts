@@ -8,7 +8,7 @@
 export function evaluate(expr: string):number {
     const result = eval(expr);
     // One "simulation" of integer division - floor at the end.  This gives
-    // slightly different results for some tests result in failures.
+    // slightly different results for some tests resulting in test failures.
     // I've set these tests to skip for the eval-based evaluator only.
     return Math.floor(parseInt(result, 10));
 }

@@ -86,7 +86,7 @@ for additional cases.
 
 #### Character-wise Expression Tokenizer
 
-[Source](.src/tokenize_charwise.ts)
+[Source](./src/tokenize_charwise.ts)
 
 This tokenizer iterates over every character in the expression keeping track of
 a current token (with `text` and `kind` properties). When it switches token
