@@ -57,7 +57,8 @@ The instructions hint how this problem can be broken down into sub-problems:
   [tests](./tests/eval.test.ts) )
 * Tokens in infix notation order. Examine left-to-right, using stacks to decide when to evaulate. ( [source](./src/infix-stacks.ts) | [tests](./tests/eval.test.ts) )
 * Converting to RPN notation, using stacks (**TO DO**)
-* Brute-force evaluation of sub expressions, using a list of operators in precedence order. ( [source](./src/eval-by-precedence.ts) | [tests](./tests/eval-by-precedence.test.ts))
+* Brute-force evaluation (no separate tokenization) of sub expressions, using a list of operators in precedence order. ( [source](./src/eval-by-precedence.ts) | [tests](./tests/eval-by-precedence.test.ts))
+* A 'split' solution separating operators and operands into two arrays, then evaluating. This was where I was heading in my incomplete attempt, and I'd like to see if it actually works. (**TO DO**)
 
 ## Discussion of Different Implementations
 
