@@ -58,7 +58,7 @@ The instructions hint how this problem can be broken down into sub-problems:
 * Tokens in infix notation order. Examine left-to-right, using stacks to decide when to evaulate. ( [source](./src/infix-stacks.ts) | [tests](./tests/eval.test.ts) )
 * Converting to RPN notation, using stacks (**TO DO**)
 * Brute-force evaluation (no separate tokenization) of sub expressions, using a list of operators in precedence order. ( [source](./src/eval-by-precedence.ts) | [tests](./tests/eval-by-precedence.test.ts))
-* A 'split' solution separating operators and operands into two arrays, then evaluating. This was where I was heading in my incomplete attempt, and I'd like to see if it actually works. (**TO DO**)
+* A 'split' solution separating operators and operands into two arrays, then evaluating. This was where I was heading in my incomplete attempt, and I'd like to see if it actually works. ( [source](./src/array-split.ts) | [tests](./tests/array-split.test.ts) )
 
 ## Discussion of Different Implementations
 
@@ -183,6 +183,17 @@ In this approach, we build a list of operators in precedence order, `\, *, -, +`
 * If we want to support whitespace between things, we need to include that as part of our search regular expression.
 * As this makes heavy use of dynamic regular expressions, it's all a bit unwieldy because of escaping.
 
+### Split input into pair of arrays for operators and ordinals
+
+[Source](./src/array-split.ts)
+
+I included this one because it was originally the approach I took in my recent attempt. To be clear, my first cut at this wasn't complete and had several issues. The example shown here is what that approach _could_ look like if taken to its conclusion.
+
+It's extremely similar to the "Brute Force Multiple Passes" example shown above. But instead of using dynamic regular expressions for substitation of evaluated expressions, it initially splits the input expression into two arrays: One containing operators and the other containing operands.
+
+By looping over the operators with an index, we can use that index to grab the two (binary) operands from the other array which correspond to this operator. We can evaluate, then `splice()` both arrays, removing the operators as it has been dealt with, and replacing the two operands with the single result. By looping over these pairs of arrays repeatedly, we can reduce the original expression down to a single result value.
+
+The other thing I added was a simple whitespace trimmer before splitting to allow expressions like "1 + 2" to succeed.
 
 ## Candidate Evaluation
 
