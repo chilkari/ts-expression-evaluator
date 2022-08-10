@@ -189,33 +189,11 @@ In this approach, we build a list of operators in precedence order, `\, *, -, +`
 
 I included this one because it was originally the approach I took in my recent attempt. To be clear, my first cut at this wasn't complete and had several issues. The example shown here is what that approach _could_ look like if taken to its conclusion.
 
-It's extremely similar to the "Brute Force Multiple Passes" example shown above. But instead of using dynamic regular expressions for substitation of evaluated expressions, it initially splits the input expression into two arrays: One containing operators and the other containing operands.
+It's extremely similar to the "Brute Force Multiple Passes" example shown above. But instead of using dynamic regular expressions for substitution of evaluated expressions, it initially splits the input expression into two arrays: One containing operators and the other containing operands.
 
 By looping over the operators with an index, we can use that index to grab the two (binary) operands from the other array which correspond to this operator. We can evaluate, then `splice()` both arrays, removing the operators as it has been dealt with, and replacing the two operands with the single result. By looping over these pairs of arrays repeatedly, we can reduce the original expression down to a single result value.
 
 The other thing I added was a simple whitespace trimmer before splitting to allow expressions like "1 + 2" to succeed.
-
-## Candidate Evaluation
-
-The problem as described is a much-simplified form of a generic expression
-evaluator. It only supports integers, and only the four basic binary operators.
-This will bring up _pragmatism_ as an interview dimension. There are solutions
-to this problem that are shorter and easier to read, but would be more difficult
-to extend to support more complicated expressions. Does the candidate consider
-this tradeoff? Is there a solution that is _both_ concise and readable, but also
-extensible for more complicated requirements?
-
-This problem is also complex enough to break into sub-parts. A strong candidate
-would ideally separate tokenizing the expression from evaluating the expression.
-When does the candidate begin to mentally break these apart? It can show how
-they compartmentalize a problem into its discrete parts.
-
-How does the candidate collaborate? Do they make use of the interviewer and
-solicit input or feedback? In the real-world, developers get stuck or have
-tunnel vision. A strong _collaborative_ candidate will offer good verbal
-descriptions of the thought process. They will invite suggestions or feedback
-along the way. Evaluating the input and not necessarily simply taking all
-suggestions as gospel, but also being open to different directions.
 
 ### References
 
